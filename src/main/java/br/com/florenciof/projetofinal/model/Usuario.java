@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tbl_usuario")
@@ -31,7 +34,16 @@ public class Usuario {
 	@Column(name="foto", length=250)
 	private String linkFoto;
 	
+	@JsonIgnoreProperties("listaUsuarios")
+	@ManyToOne
+	private Departamento departamento; 
 	
+	public Departamento getDepartamento() {
+		return departamento;
+	}
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
+	}
 	public int getId() {
 		return id;
 	}
