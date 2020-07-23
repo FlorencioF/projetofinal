@@ -28,9 +28,17 @@ public class EventoController {
 		return (ArrayList<Evento>)dao.findByOrderByData();
 	}
 	
-	@GetMapping("/eventos/relatorios/alarmes")
-	public ArrayList<VolumeAlarmes> relatorioAlarmes(){
-		return (ArrayList<VolumeAlarmes>)dao.getAllWithName();	
+	@PostMapping("/eventos/alarmes")
+	public ArrayList<VolumeAlarmes> relatorioAlarmes(@RequestBody PeriodoConsulta periodo){
+		
+		try {
+			Date inicio = new SimpleDateFormat("yyyy-MM-dd").parse(periodo.getInicio());
+			Date fim = new SimpleDateFormat("yyyy-MM-dd").parse(periodo.getFim());
+			return (ArrayList<VolumeAlarmes>)dao.getAllWithNameByPeriod(inicio, fim);
+		}
+		catch(Exception ex) {
+			return null;
+		}
 	}
 	
 	
@@ -45,6 +53,7 @@ public class EventoController {
 			return null;
 		}
 	}
+	
 	
 	@GetMapping("/eventos/alarmes/manual")
 	public ArrayList<VolumeAlarmes> recuperarEventosManual(){
